@@ -1,6 +1,15 @@
+import 'dart:math';
+
 import 'package:bmi_calculator/widgets/info_card.dart';
 import 'package:bmi_calculator/widgets/info_card_with_slider.dart';
+import 'package:bmi_calculator/widgets/stateful_card.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+enum Gender {
+  male,
+  female,
+}
 
 class InputPage extends StatefulWidget {
   @override
@@ -8,14 +17,77 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  int age = 20;
+  int weight = 60;
+  double height = 150;
+  double bmi = 0;
+  String gender = 'Male';
+
+  bmiFormula() {
+    setState(() {
+      bmi = weight / pow((height / 100), 2);
+      print(bmi);
+    });
+  }
+
+  setGender(genderVal) {
+    setState(() {
+      gender = genderVal;
+      print(gender);
+    });
+  }
+
+  setHeight(double val) {
+    setState(() {
+      height = val;
+    });
+  }
+
+  incAge() {
+    setState(() {
+      age += 1;
+    });
+  }
+
+  decAge() {
+    if (age > 0) {
+      setState(() {
+        age -= 1;
+      });
+    }
+  }
+
+  incWeight() {
+    setState(() {
+      weight += 1;
+    });
+  }
+
+  decWieght() {
+    if (weight > 0) {
+      setState(() {
+        weight -= 1;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('BMI CALCULATOR'),
+        title: Text(
+          'BMI CALCULATOR',
+          style: TextStyle(
+              //color: Colors.red[400],
+              fontSize: 18,
+              fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.sort),
+          icon: Icon(
+            Icons.sort,
+            color: Color(0xffff0066),
+          ),
           onPressed: () {},
         ),
         elevation: 5.0,
@@ -27,18 +99,65 @@ class _InputPageState extends State<InputPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InformationCard(),
-                InformationCard(),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      gender = 'Male';
+                      print(gender);
+                    });
+                  },
+                  child: InformationCard(
+                    icon: MdiIcons.genderMale,
+                    gender: 'Male',
+
+                    //bmiCalculate: bmiFormula,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      gender = 'Female';
+                      print(gender);
+                    });
+                  },
+                  child: InformationCard(
+                    icon: MdiIcons.genderFemale,
+                    gender: 'Female',
+
+                    //bmiCalculate: bmiFormula,
+                  ),
+                ),
               ],
             ),
-            InfoCard(),
+            InfoCard(
+              height: height,
+              changeVal: setHeight,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InformationCard(),
-                InformationCard(),
+                Infos(
+                  name: 'Wieght',
+                  num: weight,
+                  add: incWeight,
+                  sub: decWieght,
+                ),
+                Infos(
+                  name: 'Age',
+                  num: age,
+                  add: incAge,
+                  sub: decAge,
+                ),
               ],
             ),
+            ElevatedButton(
+              onPressed: bmiFormula,
+              // color: Colors.blue,
+              child: Text(
+                'CALCULATE YOUR BMI',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            )
           ],
         ),
       ),
