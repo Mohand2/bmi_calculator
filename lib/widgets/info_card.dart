@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class InformationCard extends StatelessWidget {
   final IconData icon;
   final String gender;
+  final Color color;
 
-  const InformationCard({this.icon, this.gender});
+  const InformationCard({this.icon, this.gender, this.color});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,7 +15,7 @@ class InformationCard extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.4,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
-          color: Color(0xff1d1e33),
+          color: color,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,15 +1,11 @@
 import 'dart:math';
 
+import 'package:bmi_calculator/screens/resultScreen.dart';
 import 'package:bmi_calculator/widgets/info_card.dart';
 import 'package:bmi_calculator/widgets/info_card_with_slider.dart';
 import 'package:bmi_calculator/widgets/stateful_card.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-enum Gender {
-  male,
-  female,
-}
 
 class InputPage extends StatefulWidget {
   @override
@@ -22,18 +18,23 @@ class _InputPageState extends State<InputPage> {
   double height = 150;
   double bmi = 0;
   String gender = 'Male';
+  Color colorFemale = Color(0xff1d1e33);
+  Color colorMale = Color(0xff1d1e33);
 
   bmiFormula() {
     setState(() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ResultScreen(
+            age: age,
+            bmi: bmi,
+            gender: gender,
+          ),
+        ),
+      );
       bmi = weight / pow((height / 100), 2);
       print(bmi);
-    });
-  }
-
-  setGender(genderVal) {
-    setState(() {
-      gender = genderVal;
-      print(gender);
     });
   }
 
@@ -103,12 +104,18 @@ class _InputPageState extends State<InputPage> {
                   onTap: () {
                     setState(() {
                       gender = 'Male';
+                      colorMale = colorMale == Color(0xff1d1e33)
+                          ? Colors.teal
+                          : Color(0xff1d1e33);
+                      colorFemale = Color(0xff1d1e33);
+
                       print(gender);
                     });
                   },
                   child: InformationCard(
                     icon: MdiIcons.genderMale,
                     gender: 'Male',
+                    color: colorMale,
 
                     //bmiCalculate: bmiFormula,
                   ),
@@ -117,12 +124,17 @@ class _InputPageState extends State<InputPage> {
                   onTap: () {
                     setState(() {
                       gender = 'Female';
+                      colorFemale = colorFemale == Color(0xff1d1e33)
+                          ? Colors.teal
+                          : Color(0xff1d1e33);
+                      colorMale = Color(0xff1d1e33);
                       print(gender);
                     });
                   },
                   child: InformationCard(
                     icon: MdiIcons.genderFemale,
                     gender: 'Female',
+                    color: colorFemale,
 
                     //bmiCalculate: bmiFormula,
                   ),
