@@ -7,6 +7,12 @@ import 'package:bmi_calculator/widgets/stateful_card.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+enum Status {
+  underWeight,
+  normal,
+  overWeight,
+}
+
 class InputPage extends StatefulWidget {
   @override
   _InputPageState createState() => _InputPageState();
@@ -20,6 +26,11 @@ class _InputPageState extends State<InputPage> {
   String gender = 'Male';
   Color colorFemale = Color(0xff1d1e33);
   Color colorMale = Color(0xff1d1e33);
+  Status status;
+  String statusText;
+  String range;
+  String note;
+  Color statusColor;
 
   bmiFormula() {
     setState(() {
@@ -30,11 +41,76 @@ class _InputPageState extends State<InputPage> {
             age: age,
             bmi: bmi,
             gender: gender,
+            statusColor: statusColor,
+            statusText: statusText,
+            range: range,
+            note: note,
           ),
         ),
       );
+
       bmi = weight / pow((height / 100), 2);
-      print(bmi);
+
+      switch (gender) {
+        case 'Male':
+          if (bmi < 18.5) {
+            status = Status.underWeight;
+          } else if (bmi >= 18.5 && bmi < 25) {
+            status = Status.normal;
+          } else if (bmi >= 25) {
+            status = Status.overWeight;
+          }
+
+          break;
+        case 'Female':
+          if (bmi < 19.5) {
+            status = Status.underWeight;
+          } else if (bmi >= 19.5 && bmi < 26) {
+            status = Status.normal;
+          } else if (bmi >= 26) {
+            status = Status.overWeight;
+          }
+          break;
+      }
+
+      switch (status) {
+        case Status.normal:
+          statusText = 'NORMAL';
+          statusColor = Colors.green;
+          if (gender == 'Male') {
+            range = '18.5 - 25 kg/m2';
+          } else {
+            range = '19.5 - 26 kg/m2';
+          }
+          note = 'Good Job';
+          break;
+        case Status.underWeight:
+          statusText = 'UNDERWEIGHT';
+          statusColor = Colors.orange;
+
+          if (gender == 'Male') {
+            range = '18.5 < kg/m2';
+          } else {
+            range = '19.5 < kg/m2';
+          }
+
+          note = 'You need to gain weight';
+          break;
+        case Status.overWeight:
+          statusText = 'OVERWEIGHT';
+          statusColor = Colors.orange;
+
+          if (gender == 'Male') {
+            range = '> 25 kg/m2';
+          } else {
+            range = '> 26.5  kg/m2';
+          }
+
+          note = 'You need to lose weight';
+          break;
+      }
+
+      print('$bmi, $status, $statusText, $statusColor');
     });
   }
 
@@ -125,7 +201,7 @@ class _InputPageState extends State<InputPage> {
                     setState(() {
                       gender = 'Female';
                       colorFemale = colorFemale == Color(0xff1d1e33)
-                          ? Colors.teal
+                          ? Color(0xffff0066)
                           : Color(0xff1d1e33);
                       colorMale = Color(0xff1d1e33);
                       print(gender);
@@ -169,7 +245,7 @@ class _InputPageState extends State<InputPage> {
                 'CALCULATE YOUR BMI',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-            )
+            ),
           ],
         ),
       ),

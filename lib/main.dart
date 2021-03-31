@@ -21,7 +21,13 @@ class BMICalculator extends StatelessWidget {
             onPrimary: Colors.white,
             primary: Color(0xffff0066),
             padding: EdgeInsets.symmetric(vertical: 18),
-            elevation: 0.0,
+            //shadowColor: Color(0xffB68D40),
+            elevation: 0,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(30),
+              ),
+            ),
           ),
         ),
       ),

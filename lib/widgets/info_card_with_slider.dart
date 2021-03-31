@@ -28,7 +28,7 @@ class _InfoCardState extends State<InfoCard> {
               //text: '${widget.height}',
               children: <InlineSpan>[
                 TextSpan(
-                  text: '${widget.height}',
+                  text: '${widget.height.toInt()}',
                   style: TextStyle(fontSize: 70, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(

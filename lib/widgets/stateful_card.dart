@@ -18,7 +18,8 @@ class _InfosState extends State<Infos> {
       width: 60,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        color: Color(0xffff0066),
+        // border: Border.all(color: Colors.pink),
+        color: Color(0xff0a6b68),
       ),
       child: IconButton(
         onPressed: function,
